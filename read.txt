@@ -1,0 +1,7 @@
+front-end in itself alone is done
+all what is left is add sockets, btens , start , end , winning , assigning which player what
+and dynamic collours to players
+
+work left for front end ->
+send data to backend
+count the rounds

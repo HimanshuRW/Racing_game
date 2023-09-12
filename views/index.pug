@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Race !!!!</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div id="game">
+        <div id="score">
+            <span id="player1_score">0 </span>:
+            <span id="player2_score"> 0</span>
+        </div>
+        <div id="control-board" class="circle" data-content="red">
+            <div id="controller" class="circle"></div>
+        </div>
+    </div>
+    <div class="car" id="car1">
+        <img src="imgs/car1.png" id="car1_img" alt="">
+    </div>
+    <div class="car" id="car2">
+        <img src="imgs/car2.png" id="car2_img" alt="">
+    </div>
+
+    //--- ----- start ----- --
+    <button id="start_btn">Ready</button>
+    <span id="timmer">3</span>
+
+    //- -- this element is only for script two --
+    <div id="tyres"></div>
+    
+    //- -- ----- socket.io installation----- --
+    script(src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous")
+    script.
+        let main_car = car#{player};
+    script(src="js/script_1.js")
+</body>
+
+</html>
