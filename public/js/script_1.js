@@ -28,7 +28,7 @@ let game_started = false;
 let running_game;
 let rounds_to_win = 3;
 
-function set_intial_values(car,car_img) {
+function set_intial_values(car, car_img) {
 
     // values for the movement
     car.vertical = 0;
@@ -39,16 +39,16 @@ function set_intial_values(car,car_img) {
         first: false, second: false, third: false, fourth: false,
     }
     car.score = 0;
-    player1_score.innerText=0;
-    player2_score.innerText=0;
+    player1_score.innerText = 0;
+    player2_score.innerText = 0;
 
     car1.style.left = `${(window.innerWidth / 2) - 93}px`;
     car2.style.left = `${(window.innerWidth / 2) - 63}px`;
     car.style.top = `50%`;
     car_img.style.transform = `rotateZ(0deg)`;
 }
-set_intial_values(car1,car1_img);
-set_intial_values(car2,car2_img);
+set_intial_values(car1, car1_img);
+set_intial_values(car2, car2_img);
 
 // these above values wil be updated by window venet touch and socket.io
 car1.player = 1;
@@ -64,7 +64,7 @@ let tyres_coordinates = tyres.getBoundingClientRect();
 
 // car controlled by front-end is assigned to main_car
 // let main_car = car1;
-if (main_car.player==1) {
+if (main_car.player == 1) {
     start_btn.classList += " player1";
     control_board.classList += " player1";
 } else {
@@ -73,13 +73,20 @@ if (main_car.player==1) {
 }
 
 // --- start logic ----
-start_btn.addEventListener("click",(e)=>{
+start_btn.addEventListener("click", (e) => {
+    // -------- Touch and mouse events to trigger the values of horizontal and vertical of car 
+    window.addEventListener('mousedown', start);
+    window.addEventListener('mousemove', controller_fun);
+    window.addEventListener('mouseup', end);
+    window.addEventListener('touchstart', start);
+    window.addEventListener('touchmove', controller_fun);
+    window.addEventListener('touchend', end);
     socket.emit("ready");
 });
 
 let secondary_car;
-if (main_car.player==1) {
-    secondary_car=car2;
+if (main_car.player == 1) {
+    secondary_car = car2;
 } else secondary_car = car1;
 
 // --- game logic---
@@ -226,8 +233,8 @@ function gameEngine() {
                     if (car.player == 1) {
                         player1_score.innerText = car.score;
                     } else player2_score.innerText = car.score;
-                    if (car.score>(rounds_to_win-1)) {
-                        socket.emit("win",car.player);
+                    if (car.score > (rounds_to_win - 1)) {
+                        socket.emit("win", car.player);
                     }
                 }
                 if (car.quadrant_completed.second) { // came via second quandrant
@@ -282,14 +289,6 @@ function gameEngine() {
 }
 
 
-// -------- Touch and mouse events to trigger the values of horizontal and vertical of car 
-window.addEventListener('mousedown', start);
-window.addEventListener('mousemove', controller_fun);
-window.addEventListener('mouseup', end);
-window.addEventListener('touchstart', start);
-window.addEventListener('touchmove', controller_fun);
-window.addEventListener('touchend', end);
-
 function start(event) {
     event.preventDefault();
     state.mousedown = true;
@@ -305,9 +304,9 @@ function end(event) {
     main_car.horizontal = 0;
     main_car.vertical = 0;
 
-    socket.emit("myCar",{
-        horizontal : 0,
-        vertical : 0
+    socket.emit("myCar", {
+        horizontal: 0,
+        vertical: 0
     });
 }
 
@@ -338,10 +337,10 @@ function controller_fun(event) {
         main_car.horizontal = rangeX;
         main_car.vertical = -rangeY;
 
-        if(game_started){
-            socket.emit("myCar",{
-                horizontal : main_car.horizontal,
-                vertical : main_car.vertical
+        if (game_started) {
+            socket.emit("myCar", {
+                horizontal: main_car.horizontal,
+                vertical: main_car.vertical
             });
         }
     }
@@ -363,17 +362,17 @@ function in_upside_of_tyre(car) { // return true if car is at left side of tyres
     return (car.coordinates.y < tyres_coordinates.y + (tyres_coordinates.height / 2));
 }
 
-socket.on("wait",()=>{
+socket.on("wait", () => {
     start_btn.innerText = "Waiting for other player..."
 })
 
-socket.on("updateCar",data=>{
+socket.on("updateCar", data => {
     secondary_car.horizontal = data.horizontal;
     secondary_car.vertical = data.vertical;
 });
 
-socket.on("game_start",game_start);
-socket.on("restart_game",restart_game);
+socket.on("game_start", game_start);
+socket.on("restart_game", restart_game);
 
 
 function game_start() {
@@ -381,7 +380,7 @@ function game_start() {
     const timmer = document.getElementById("timmer");
     timmer.style.display = "inline";
     timmer.className = "timmer";
-    game_started= true;
+    game_started = true;
     setTimeout(() => {
         timmer.innerText = "2";
         setTimeout(() => {
@@ -400,17 +399,17 @@ function game_start() {
     }, 1000);
 }
 
-function restart_game(winner){
+function restart_game(winner) {
     cancelAnimationFrame(running_game);
     game_started = false;
-    set_intial_values(car1,car1_img);
-    set_intial_values(car2,car2_img);
-    if (main_car.player==winner) {
+    set_intial_values(car1, car1_img);
+    set_intial_values(car2, car2_img);
+    if (main_car.player == winner) {
         start_btn.innerText = "You Won !!! Click to play again";
     } else start_btn.innerText = "You Lost !!! Click to play again";
     start_btn.style.display = "block";
 }
 
-window.addEventListener("load",()=>{
+window.addEventListener("load", () => {
     start_btn.style.display = 'inline-block';
 })
