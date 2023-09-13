@@ -81,7 +81,6 @@ let secondary_car;
 if (main_car.player==1) {
     secondary_car=car2;
 } else secondary_car = car1;
-console.log(secondary_car);
 
 // --- game logic---
 function gameEngine() {
@@ -411,3 +410,7 @@ function restart_game(winner){
     } else start_btn.innerText = "You Lost !!! Click to play again";
     start_btn.style.display = "block";
 }
+
+window.addEventListener("load",()=>{
+    start_btn.style.display = 'inline-block';
+})

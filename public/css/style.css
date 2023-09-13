@@ -130,6 +130,7 @@ body::after {
     color: white;
     box-shadow: none;
     outline: none;
+    display: none;
 }
 #timmer{
     position: absolute;
